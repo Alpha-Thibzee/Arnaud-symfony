@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Liste des cartes!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="stylesheet" href="{{ asset('assets/theme/bootstrap.min.css') }}"> {% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+		<script defer src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    </head>
+    <body class="fw-bolder">
+		<header class="">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="{{ path('card_list')}}">Carte Alexis |
+					</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarColor01">
+						<ul class="navbar-nav ms-auto">
+							{# {% if app.user %}
+								{% if 'ROLE_ADMIN' in app.user.roles %}
+									<ul class="nav navbar-nav me-auto">
+										<li class="nav-item">
+											<a class="nav-link" href="{{ path('category_new')}}">Ajout catégorie</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" href="{{ path('tag_new')}}">Ajout tag</a>
+										</li>
+									</ul>
+								{% endif %}
+							{% endif %} #}
+							<ul class="nav navbar-nav me-auto">
+								{# {% if app.user %} #}
+									<li class="nav-item">
+										<a class="nav-link " href="{{ path('cardlist')}}">Accueil</a>
+									</li>
+									{# <li class="nav-item">
+										<a class="nav-link" href="{{ path('about')}}">A propos</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('blog_list')}}">Liste article</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('category_list')}}">Liste categories</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('profil_show',{slug : app.user.slug})}}">Profil</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('blog_new')}}">Ajout article</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('tag_list')}}">Liste des tags</a>
+									</li>
+									<li>
+										<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+									</li> #}
+								{# {% else %}
+									<li>
+										<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+									</li>
+					
+								{% endif %} #}
+							</ul>
+
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>
