@@ -18,11 +18,11 @@ class CardsFixtures extends Fixture
             ->setName("Carte n° $i")
             ->setValue(rand(20,200))
             ->setQuantite(1)
-            ->setImage('rouge.png')
+            ->setImage($i . '.png')
             ->setDescription("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
             Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.")
-            ->setbuyAt(new \DateTimeImmutable())
-            ->setsellAt(new \DateTimeImmutable())
+            ->setBuyAt(new \DateTimeImmutable())
+            ->setSellAt(new \DateTimeImmutable())
             ->setInSell(true);
             
             

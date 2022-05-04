@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+<section class="container d-flex flex-column w-25  mx-auto my-auto">
+    {{ form_row(form.name, {'attr' : {'class' : 'form-control'}, 'label' : 'Nom :' }) }}
+    {{ form_row(form.value, {'attr' : {'class' : 'form-control'}, 'label' : 'Valeur :' }) }}
+    {{ form_row(form.quantite, {'attr' : {'class' : 'form-control'}, 'label' : 'Quantité :' }) }}
+    {{ form_row(form.image, {'attr' : {'class' : ' form-control'}, 'label' : 'Image :' }) }}
+    {{ form_row(form.description, {'attr' : {'class' : ' form-control'}, 'label' : 'Descritpion :' }) }}
+    {{ form_row(form.inSell, {'attr' : {'class' : 'form-check-input mx-2 my-2'}, 'label' : 'En vente ? : ' }) }}
+    {{ form_row(form.buyAt, {'attr' : {'class' : ' mx-2 mt-2'}, 'label' : 'Acheté le : ' })}}
+     {{ form_row(form.sellAt, {'attr' : {'class' : 'mx-2 my-2'}, 'label' : 'Vendu le : ' })}}
+
+<button type="submit" class="btn btn-outline-primary mt-2"> Ajouter </button>
+</section>
+{{ form_end(form) }}

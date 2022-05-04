@@ -7,3 +7,7 @@ background: linear-gradient(#b1e0f5, #18a7ef);
 .contentbox{
     height: 250px;
 }
+img {
+    width: 250px;
+    height: 200px;
+  }
