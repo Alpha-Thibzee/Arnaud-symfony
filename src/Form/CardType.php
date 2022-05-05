@@ -48,7 +48,7 @@ class CardType extends AbstractType
             ])
             ->add('image', FileType::class,[
                 'data_class' => null,
-                'required' =>false,
+                'required' =>true,
                 'constraints' => [
                     new Image([
                         'maxSize' => '1024K'

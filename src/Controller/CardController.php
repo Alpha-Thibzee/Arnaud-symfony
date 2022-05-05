@@ -6,6 +6,7 @@ use Exception;
 use App\Entity\Cards;
 use App\Form\CardType;
 use App\Service\Upload;
+use App\Form\FilterType;
 use App\Repository\CardsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,22 +16,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CardController extends AbstractController
 {
+    
+
     #[Route('/card-list', name: 'cardlist')]
-    public function list( CardsRepository $repo): Response
+    public function list( CardsRepository $repo, Request $request): Response
     {
-        // $filter = $this->createForm(FilterType::class);
-        // $filter->handleRequest($request);
+        $filter = $this->createForm(FilterType::class);
+        $filter->handleRequest($request);
         $cards = $repo -> findAll();
 
-        // if($filter->isSubmitted() && $filter->isValid()){
-        //     $category = $filter['category']->getData();
-        //     $order = ($filter["dateOrder"]->getData()? 'ASC' : 'DESC');
-        //     $tag = $filter['tag']->getData();
-        //     $articles = $repo->filterArticle($category, $order, $tag);
-        // }
+         if($filter->isSubmitted() && $filter->isValid()){
+       
+           $order = ($filter["prix"]->getData()? 'ASC' : 'DESC');
+        
+            $cards = $repo->filterCards($order);
+        }
 
         return $this->render('card/list.html.twig', [
             'cards' => $cards,
+            'filter' => $filter->createView()
 
         ]);
     }
@@ -51,10 +55,11 @@ class CardController extends AbstractController
         $em->remove($card);
         try{
             $em->flush();
-            $this->addFlash('sucess', "Carte supprimée");
+            $this->addFlash('success', "Carte supprimée avec succès");
 
         }catch(Exception $e){
-            $this->addFlash('danger', "Echec de la suppression");
+            
+            $this->addFlash('danger', "Echec de la suppression de la carte");
         }
         
         return $this->redirectToRoute('cardlist');
@@ -84,8 +89,10 @@ class CardController extends AbstractController
            try
            {
                 $em -> flush($card);
+                $this->addFlash('success', 'Carte ajoutée avec succès');
            }catch(Exception $e)
            {
+            $this->addFlash('danger', 'Echec de la création de la carte');
                 return $this->redirectToRoute('card_add');
            }
            
@@ -118,9 +125,10 @@ class CardController extends AbstractController
             $card->setImage($avatarFileName);
         }
         $em -> flush();
+        $this->addFlash('success', 'Carte modifiée avec succès');
             return $this->redirectToRoute('cardlist');
        }
-
+       $this->addFlash('danger', 'Echec de la modification de la carte');
         return $this->render('card/edit.html.twig', [
             'form' => $form->createView()
         ]);

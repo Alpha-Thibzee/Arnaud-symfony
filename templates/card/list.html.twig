@@ -5,6 +5,13 @@
 {% block body %}
 
 <h1 class="text-center fw-bolder">Liste des cartes</h1>
+<div class="d-flex mx-auto justify-content-center text-center">
+		<div>
+			{{ form_start(filter) }}
+				{{form_widget(filter) }}
+			{{ form_end(filter) }}
+		</div>
+	</div>
 <div class="row mt-5 d-flex justify-content-center">
 		{% for card in cards %}
 			<div class="card border-secondary col-3 me-2 mb-3 p-0 h-auto" style="max-width: 20rem;">
@@ -21,7 +28,12 @@
 					{% else %}
 					<p class="card-text mt-2"> En vente : non</p>
 					{% endif %}
+						{% if app.user %}
+								{% if 'ROLE_ADMIN' in app.user.roles %}
 					<a href="{{ path('card_show',{id: card.Id}) }}" class="btn btn-secondary text-center">Voir carte</a> 
+								{% endif %}
+						{% endif %}
+								<a href="{{ path('sendmail',{id: card.Id}) }}" class="btn btn-secondary text-center">Encherir</a> 
 				</div>
 			</div>
 		{% endfor %}

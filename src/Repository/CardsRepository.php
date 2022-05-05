@@ -47,6 +47,20 @@ class CardsRepository extends ServiceEntityRepository
         }
     }
 
+    public function filterCards( ?string $order) : array
+    {
+        
+        $query = $this->createQueryBuilder('p');
+
+        if($order)
+        {
+            $query = $query->orderBy('p.value', $order);
+        }
+        $finalQuery = $query->getQuery()
+        ->getResult();
+
+        return $finalQuery;
+    }
     // /**
     //  * @return Cards[] Returns an array of Cards objects
     //  */
