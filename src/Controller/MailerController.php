@@ -19,50 +19,48 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 class MailerController extends AbstractController
 {
     #[Route('/mailer/{id}', name: 'sendmail')]
-    public function mailer(TransportInterface $mailer,Cards $card, CardsRepository $repo, $id, Request $request): Response
+    public function index(CardsRepository $card , Cards $cards ,Request $request, TransportInterface $mailer, $id)
     {
+        $card->findOneBy(['id' => $id]);
+        $value = $cards->getValue()+1;
+        $name = $cards->getName();
+        $form = $this->createForm(MailerType::class);
 
-        $repo->findOneBy(['id' => $id]);
-        $value = $card->getValue()+10;
-        $name = $card->getName(); 
-        $form = $this->createForm(MailerType::class); 
-        $form->handleRequest($request); 
+        $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) { 
 
-        $contactFormData = $form->getData();
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $contactFormData = $form->getData();
+            
+            $message = (new TemplatedEmail())
+                ->from($contactFormData['email'])
+                ->to('alexis@carte-collection.com')
+                ->subject('Nouvelle propositon d\'achat pour la carte '.$name.' d\'une valeur de '. $contactFormData['value'].'€')
+                ->text("ta mere")
+                ->context([
+                    'mail' => $contactFormData["email"],
+                    'name' => $contactFormData["name"],
+                    'value' => $contactFormData["value"],
+                ]);
+
+                    try {
+                        $mailer->send($message);
+                        $this->addFlash('success', 'Votre proposition d\'offre pour la carte "'.$name.'" à bien été envoyé');
+                    } catch (TransportExceptionInterface $e) {
+                        $this->addFlash('error', 'Votre proposition d\'offre pour la carte "'.$name.'" n\'a pas été envoyé');
+                        return $this->redirectToRoute('homepage');
+                    }
+
+
+            return $this->redirectToRoute('cardlist');
+        }
         
-        $email = (new TemplatedEmail())
-            ->from($contactFormData['email'])
-            ->to('alexis@admin.com')
-            ->subject('Proposition d\'achat pour la carte '.$name.' indéxée actuellement sur le site à '.$value.'')
-            // ->text('Sending emails is fun again!')
-            ->htmlTemplate('mailer/index.html.twig')
-            ->context([
-                'email' => $contactFormData["email"],
-                'name' => $contactFormData["nom"], 
-                'value' => $contactFormData["value"], 
-                 
-                // 'newvalue' =>$newValue,
-            ]);
-            try { 
-                $mailer->send($email); 
-                $this->addFlash('success', 'Votre proposition d\'offre à bien été envoyé'); 
-                } catch (TransportExceptionInterface $e) { 
-                $this->addFlash('error', 'Votre proposition d\'offre a échoué'); 
-                return $this->redirectToRoute('homepage'); 
-                } 
-                return $this->redirectToRoute('homepage'); } 
-                return $this->render('mailer/index.html.twig', [ 
-                'name' => $name, 
-                'value' => $value, 
-                'form' => $form->createView() ]); }
-
-        // $mailer->send($email);
-        // $this->addFlash('success','Votre offre a été envoyée avec succès');
-
-    // dd( $mailer->send($email)->getDebug());
-
-    
+        return $this->render('mailer/index.html.twig', [
+            'name' => $name,
+            'value' => $value,
+            'form' => $form->createView()
+        ]);
     }
 
+}

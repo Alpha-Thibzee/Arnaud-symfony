@@ -16,7 +16,7 @@ class MailerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-             ->add('nom', TextType::class,[
+             ->add('name', TextType::class,[
                 'label' => 'Votre Nom : ',
              ])
              ->add('email', EmailType::class,[
@@ -29,18 +29,10 @@ class MailerType extends AbstractType
            ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'      => MailerType::class,
-            //  enable/disable CSRF protection for this form
-            // 'csrf_protection' => true,
-            //  the name of the hidden HTML field that stores the token
-            // 'csrf_field_name' => '_token',
-            // an arbitrary string used to generate the value of the token
-            //  using a different string for each form improves its security
-            // 'csrf_token_id'   => 'cards_item',
-        
+            // Configure your form options here
         ]);
     }
     
